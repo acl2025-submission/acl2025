@@ -10,25 +10,38 @@ milestones:
     dependencies: 
       - "Start"
 
+  - name: "report_non_receipt"
+    type: "FC"
+    description: "Report non receipt by the user."
+    dependencies: 
+      - "get_order_details"
+
   - name: "offer_discount_on_expedited_shipping"
     type: "FC"
     description: "Offer a discount on expedited shipping to the customer."
     dependencies: 
       - "get_order_details"
+  
+  - name: "process_payment"
+    type: "FC"
+    description: "Process payment for expedite shipping"
+    dependencies: 
+      - "offer_discount_on_expedited_shipping"
 
   - name: "transferToHuman"
     type: "FC"
     description: "Escalate unresolved issues to the team"
     dependencies:   
-      - "get_order_details"
       - "offer_discount_on_expedited_shipping"
+      - "process_payment"
 
   - name: "mark_problem_resolved"
     type: "FC"
     description: "Use this tool to mark the problem is resolved or issue is fixed"
     dependencies: 
+      - "report_non_receipt"
       - "get_order_details"
-      - "offer_discount_on_expedited_shipping"
+      - "process_payment"
       
   - name: "End"
     type: "NFC"
