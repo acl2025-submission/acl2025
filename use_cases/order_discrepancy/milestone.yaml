@@ -1,0 +1,50 @@
+milestones:
+  - name: "Start"
+    type: "NFC"
+    description: "Initialization of the conversation, this determines that the chat between Huamn and AI has started"
+    dependencies: []
+
+  - name: "verify_customer_identity"
+    type: "FC"
+    description: "Verifies the customer's identity by comparing the provided name and email address with the ones in the order details."
+    dependencies: 
+      - "Start"
+
+  - name: "check_item_in_order"
+    type: "FC"
+    description: "Checks if the described item is included in the original order."
+    dependencies: 
+      - "verify_customer_identity"
+
+  - name: "initiate_shipping_request"
+    type: "FC"
+    description: "Initiates a new shipping request for the missing item."
+    dependencies:   
+      - "check_item_in_order"
+
+  - name: "place_new_order"
+    type: "FC"
+    description: "Places a new order for the missing item."
+    dependencies:   
+      - "check_item_in_order"
+
+  - name: "transferToHuman"
+    type: "FC"
+    description: "Escalate unresolved issues to technical team"
+    dependencies:   
+      - "check_item_in_order"
+
+  - name: "mark_problem_resolved"
+    type: "FC"
+    description: "marks the problem as resolved and closes the conversation"
+    dependencies:   
+      - "check_item_in_order"
+
+  - name: "End"
+    type: "NFC"
+    description: "Acknowledge that the issue is resolved or escalated."
+    dependencies: 
+      - "place_new_order"
+      - "initiate_shipping_request"
+      - "mark_problem_resolved"
+      - "transferToHuman"

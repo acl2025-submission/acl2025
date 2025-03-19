@@ -1,0 +1,51 @@
+milestones:
+  - name: "Start"
+    type: "NFC"
+    description: "Initialization of the conversation, this determines that the chat between Huamn and AI has started"
+    dependencies: []
+
+  - name: "fetch_gift_card"
+    type: "FC"
+    description: "Retrieves the user's gift card details using their email."
+    dependencies: 
+      - "Start"
+
+  - name: "get_gift_card_details"
+    type: "FC"
+    description: "Retrieves the details of a specific gift card using its code"
+    dependencies: 
+      - "fetch_gift_card"
+
+  - name: "check_gift_card_redeemed"
+    type: "FC"
+    description: Checks if the gift card has already been redeemed.
+    dependencies:   
+      - "get_gift_card_details"
+
+  - name: "apply_gift_card_to_account"
+    type: "FC"
+    description: "Applies the gift card to the user's account."
+    dependencies:   
+      - "check_gift_card_redeemed"
+
+  - name: "transferToHuman"
+    type: "FC"
+    description: "Escalate unresolved issues to technical team"
+    dependencies:   
+      - "check_gift_card_redeemed"
+      - "apply_gift_card_to_account"
+      - "get_gift_card_details"
+
+  - name: "mark_problem_resolved"
+    type: "FC"
+    description: "Use this tool to mark the problem is resolved or issue is fixed or customer no longer needs help"
+    dependencies: 
+      - "check_gift_card_redeemed"
+      - "get_gift_card_details"
+
+  - name: "End"
+    type: "NFC"
+    description: "Acknowledge that the issue is resolved or escalated."
+    dependencies: 
+      - "mark_problem_resolved"
+      - "transferToHuman"

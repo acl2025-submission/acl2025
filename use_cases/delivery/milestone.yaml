@@ -1,0 +1,38 @@
+milestones:
+  - name: "Start"
+    type: "NFC"
+    description: "Initialization of the conversation, this determines that the chat between Huamn and AI has started"
+    dependencies: []
+
+  - name: "get_order_details"
+    type: "FC"
+    description: "Fetch the order details from the system using the provided order number."
+    dependencies: 
+      - "Start"
+
+  - name: "offer_discount_on_expedited_shipping"
+    type: "FC"
+    description: "Offer a discount on expedited shipping to the customer."
+    dependencies: 
+      - "get_order_details"
+
+  - name: "transferToHuman"
+    type: "FC"
+    description: "Escalate unresolved issues to the team"
+    dependencies:   
+      - "get_order_details"
+      - "offer_discount_on_expedited_shipping"
+
+  - name: "mark_problem_resolved"
+    type: "FC"
+    description: "Use this tool to mark the problem is resolved or issue is fixed"
+    dependencies: 
+      - "get_order_details"
+      - "offer_discount_on_expedited_shipping"
+      
+  - name: "End"
+    type: "NFC"
+    description: "Acknowledge that the issue is resolved or escalated."
+    dependencies: 
+      - "mark_problem_resolved"
+      - "transferToHuman"

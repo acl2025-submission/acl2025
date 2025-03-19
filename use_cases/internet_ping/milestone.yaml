@@ -1,0 +1,57 @@
+milestones:
+  - name: "Start"
+    type: "NFC"
+    description: "Initialization of the conversation, this determines that the chat between Huamn and AI has started"
+    dependencies: []
+
+  - name: "get_customer_account"
+    type: "FC"
+    description: "Use this tool to fetch  the customer's account details using their full name and address."
+    dependencies: 
+      - "Start"
+
+  - name: "get_network_usage_history"
+    type: "FC"
+    description: "Use this tool to fetch  the network usage history of a customer's account."
+    dependencies:
+      - "get_customer_account"
+      - "get_device_connection_history"
+  
+  - name: "get_device_connection_history"
+    type: "FC"
+    description: "Use this tool to fetch the device connection history of a customer's account."
+    dependencies:
+      - "get_customer_account"
+      - "get_network_usage_history"
+
+  - name: "Join_1"
+    type: "Aggrigator"
+    description: "And Operator for aggrigation"
+    dependencies: 
+      - "get_device_connection_history"
+      - "get_network_usage_history"
+
+  - name: "remote_reboot_router"
+    type: "FC"
+    description: "Use this tool to Remotely reboots the customer's router."
+    dependencies: 
+      - "Join_1"
+
+  - name: "transferToHuman"
+    type: "FC"
+    description: "Use this tool to sscalates the issue to the technical support team."
+    dependencies: 
+      - "remote_reboot_router"
+
+  - name: "mark_problem_resolved"
+    type: "FC"
+    description: "Use this tool to mark the problem is resolved or issue is fixed after restarting the router"
+    dependencies: 
+      - "remote_reboot_router"
+
+  - name: "End"
+    type: "NFC"
+    description: "Acknowledge that the issue is resolved or escalated."
+    dependencies: 
+      - "mark_problem_resolved"
+      - "transferToHuman"

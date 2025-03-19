@@ -1,0 +1,63 @@
+milestones:
+  - name: "Start"
+    type: "NFC"
+    description: "Initialization of the conversation, this determines that the chat between Huamn and AI has started"
+    dependencies: []
+
+  - name: "get_customer_details"
+    type: "FC"
+    description: "Verify customer identity using email and credit card details"
+    dependencies: 
+      - "Start"
+
+  - name: "get_purchase_history"
+    type: "FC"
+    description: "Retrieve customer's purchase history using verified email"
+    dependencies: 
+      - "get_customer_details"
+
+  - name: "get_download_status"
+    type: "FC"
+    description: "Check current download status of specific purchase"
+    dependencies:   
+      - "get_purchase_history"
+
+  - name: "reset_download"
+    type: "FC"
+    description: "Attempt to reset download for problematic purchase"
+    dependencies:   
+      - "get_download_status"
+
+  - name: "Offer Free Up Space Solution"
+    type: "NFC"
+    description: "If download status is successful, AI should offer the customer to make space for the file in their system"
+    dependencies:   
+      - "get_download_status"
+
+  - name: "Offer Trying Later"
+    type: "NFC"
+    description: "If download status is currently unavailable, AI should offer the customer to try again later"
+    dependencies:   
+      - "get_download_status"
+
+  - name: "transferToHuman"
+    type: "FC"
+    description: "Escalate unresolved issues to technical team"
+    dependencies:   
+      - "reset_download"
+      - "Offer Free Up Space Solution"
+
+  - name: "mark_problem_resolved"
+    type: "FC"
+    description: "Use this tool to mark the problem is resolved or issue is fixed"
+    dependencies: 
+      - "reset_download"
+      - "Offer Free Up Space Solution"
+      - "Offer Trying Later"
+
+  - name: "End"
+    type: "NFC"
+    description: "Acknowledge that the issue is resolved or escalated."
+    dependencies: 
+      - "mark_problem_resolved"
+      - "transferToHuman"
